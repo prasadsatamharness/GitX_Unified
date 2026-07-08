@@ -6,4 +6,4 @@ pipeline:
         - name: Step
           id: step
           run: 
-            script: echo "hello world"
+            script: echo "hello world changed from Git to harness"
