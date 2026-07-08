@@ -1,0 +1,9 @@
+pipeline:
+  stages:
+    - name: Stage
+      id: stage
+      steps:
+        - name: Step
+          id: step
+          run: 
+            script: echo "hello world"
