@@ -1,0 +1,71 @@
+pipeline:
+  stages:
+    - name: Helm B/G Deploy
+      id: helm_bg_deploy
+      steps:
+        [
+          {
+              name: pre-cleanup,
+              if: <+OnPipelineSuccess> && <+stage.variables.shouldFail>=="false",
+              id: pre_cleanup,
+              deploy: { uses: helmDeleteStep@1.0.8, with: { release: <+infra.releaseName> } }
+            },
+          {
+              name: Helm Blue Green Deploy,
+              id: helmBlueGreenDeployStep,
+              template: { uses: helmBlueGreenDeployStep }
+            },
+          {
+              name: Helm Blue Green Swap,
+              id: helmBlueGreenSwapStep,
+              template: { uses: helmBlueGreenSwapStep }
+            },
+          {
+              name: trigger fail,
+              run: exit 1,
+              if: <+Always> && <+stage.variables.shouldFail>=="true",
+              id: trigger_fail
+            },
+          {
+              name: scale pods,
+              id: scale_pods,
+              deploy:
+                {
+                  uses: k8sScaleStep@1.0.9,
+                  with:
+                    {
+                      instances: "2",
+                      workload: <+<+infra.namespace>/Deployment/<+infra.releaseName>-msc-blue>,
+                      flags: []
+                    }
+                },
+              if: <+OnPipelineSuccess> && false
+            }
+        ]
+      environment:
+        id: env_demo_test2
+        deploy-to: infrastructure_kubernetes_demo22
+      on-failure:
+        errors: all
+        action: stage-rollback
+      timeout: 10m
+      rollback:
+        - group:
+            steps:
+              - name: Helm Blue Green Swap Rollback
+                id: helmBlueGreenSwapStepRollback
+                template:
+                  uses: helmBlueGreenSwapStep
+              - name: Helm Delete
+                id: helm_delete
+                deploy:
+                  uses: helmDeleteStep@1.0.8
+                  with:
+                    release: <+infra.releaseName>
+      inputs:
+        shouldFail:
+          type: string
+          default: "false"
+      service:
+        items:
+          - native_helm_with_configs
