@@ -1,4 +1,4 @@
 template:
   step:
     run:
-      script: echo "from template harness to git"
+      script: echo "from template git to harness"
