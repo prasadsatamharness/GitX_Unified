@@ -21,12 +21,6 @@ pipeline:
               template: { uses: helmBlueGreenSwapStep }
             },
           {
-              name: trigger fail,
-              run: exit 1,
-              if: <+Always> && <+stage.variables.shouldFail>=="true",
-              id: trigger_fail
-            },
-          {
               name: scale pods,
               id: scale_pods,
               deploy:
