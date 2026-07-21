@@ -69,3 +69,7 @@ pipeline:
       service:
         items:
           - native_helm_with_configs
+      runtime:
+        kubernetes:
+          namespace: default
+          connector: connector_K8sCluster_9fb7
