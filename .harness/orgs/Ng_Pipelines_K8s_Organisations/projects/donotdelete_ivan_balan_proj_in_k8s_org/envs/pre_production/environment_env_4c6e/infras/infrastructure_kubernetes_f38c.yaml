@@ -7,6 +7,6 @@ infrastructureDefinition:
   spec:
     connectorRef: account.cdautomationtest
     namespace: default
-    releaseName: release-<+INFRA_KEY_SHORT_ID>
+    releaseName: release-<+test>
   allowSimultaneousDeployments: false
   environmentRef: environment_env_4c6e
