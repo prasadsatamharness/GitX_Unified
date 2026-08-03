@@ -1,0 +1,12 @@
+infrastructureDefinition:
+  name: infrastructure_kubernetes_f38c
+  identifier: infrastructure_kubernetes_f38c
+  tags: {}
+  type: KubernetesDirect
+  deploymentType: Kubernetes
+  spec:
+    connectorRef: account.cdautomationtest
+    namespace: default
+    releaseName: release-<+INFRA_KEY_SHORT_ID>
+  allowSimultaneousDeployments: false
+  environmentRef: environment_env_4c6e
