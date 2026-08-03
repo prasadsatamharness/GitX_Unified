@@ -1,0 +1,8 @@
+environment:
+  name: environment_env_4c6e
+  identifier: environment_env_4c6e
+  description: ""
+  tags: {}
+  type: PreProduction
+  orgIdentifier: Ng_Pipelines_K8s_Organisations
+  projectIdentifier: donotdelete_ivan_balan_proj_in_k8s_org
