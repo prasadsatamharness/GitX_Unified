@@ -4,4 +4,22 @@ service:
   tags: {}
   serviceDefinition:
     type: Kubernetes
-    spec: {}
+    spec:
+      manifests:
+        - manifest:
+            identifier: pssa
+            spec:
+              store:
+                spec:
+                  connectorRef: org.connector_Github_516b
+                  repoName: pipelinesngautomation
+                  gitFetchType: Branch
+                  branch: main
+                  paths:
+                    - k8s/manifests/k8s/simple-manifest-configurable-artifact/templates
+                type: Github
+              optionalValuesYaml: false
+              enableDeclarativeRollback: false
+              skipResourceVersioning: false
+            type: K8sManifest
+      artifacts: {}
