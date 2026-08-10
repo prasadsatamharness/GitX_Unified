@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:alpine  # Artifact pulled from public Docker Hub
+        image: dhi.io/nginx:1-debian-dev  # Updated image reference
         ports:
         - containerPort: 80
         resources:
